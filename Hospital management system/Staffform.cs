@@ -1,92 +1,134 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Hospital_management_system
 {
     public partial class Staffform : Form
     {
+        SqlConnection con;
+        SqlCommand cmd;
+        SqlDataAdapter da;
+        DataSet ds;
+        DataGridViewCellEventArgs es;
+
+        String s = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Kaushik\source\repos\Hospital management system\Hospital management system\HMS_DB.mdf;Integrated Security=True";
+
         public Staffform()
         {
             InitializeComponent();
         }
 
-        private void Staffform_Load(object sender, EventArgs e)
+        void connection()
         {
-
+            con = new SqlConnection(s);
+            con.Open();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void Staffform_Load(object sender, EventArgs e)
         {
-
+            fillgrid();
         }
 
         private void guna2Button4_Click(object sender, EventArgs e)
         {
-            try
+            connection();
+
+            if (btnregister.Text == "Add")
             {
-                // Retrieve values from the form
-                int sid = int.Parse(txtsid.Text); // Convert to int for Patient_Id
-                String fname = txtfname.Text;
-                String lname = txtlname.Text;
-                String email = txtmail.Text;
-                String mobile = txtmobile.Text;
-                String role = Comborole.Text;
-                String gender = combogender.Text;
-                String address = txtadd.Text;
+                // Register a new staff member
+                cmd = new SqlCommand("INSERT INTO Staff (Staff_Fname, Staff_Lname, Staff_Email, Staff_Mobile, Staff_Role, Staff_Gender, Staff_Address) VALUES (@fname, @lname, @Email, @Mobile, @role, @Gender, @Address)", con);
+                cmd.Parameters.AddWithValue("@fname", txtfname.Text);
+                cmd.Parameters.AddWithValue("@lname", txtlname.Text);
+                cmd.Parameters.AddWithValue("@Email", txtmail.Text);
+                cmd.Parameters.AddWithValue("@Mobile", txtmobile.Text);
+                cmd.Parameters.AddWithValue("@role", Comborole.Text);
+                cmd.Parameters.AddWithValue("@Gender", combogender.Text);
+                cmd.Parameters.AddWithValue("@Address", txtadd.Text);
 
-                // Define the connection string (ensure the database path is correct)
-                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Kaushik\source\repos\Hospital management system\Hospital management system\HMS_DB.mdf;Integrated Security=True");
+                cmd.ExecuteNonQuery();
 
-                // Define the SQL command with parameters
-                SqlCommand cmd = new SqlCommand("INSERT INTO Staff (Staff_Id, Staff_Fname, Staff_Lname, Staff_Email, Staff_Mobile, Staff_Role, Staff_Gender, Staff_Address) VALUES (@sid, @fname, @lname, @Email, @Mobile, @role, @Gender, @Address)", con);
-
-                // Add parameters to prevent SQL Injection
-                cmd.Parameters.AddWithValue("@sid", sid);
-                cmd.Parameters.AddWithValue("@fname", fname);
-                cmd.Parameters.AddWithValue("@lname", lname);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Mobile", mobile);
-                cmd.Parameters.AddWithValue("@role", role);
-                cmd.Parameters.AddWithValue("@Gender", gender);
-                cmd.Parameters.AddWithValue("@Address", address);
-
-                // Open the connection, execute the command, and close the connection
-                con.Open();
-                int rowsAffected = cmd.ExecuteNonQuery(); // Use ExecuteNonQuery for insert/update/delete
-
-                // Check if the insertion was successful
-                if (rowsAffected > 0)
-                {
-                    MessageBox.Show("Data inserted successfully!");
-                }
-                else
-                {
-                    MessageBox.Show("Data insertion failed!");
-                }
-                con.Close();
+                MessageBox.Show("Staff record inserted successfully!");
+                fillgrid();
             }
-            catch (Exception ex)
+            else
             {
-                // Show detailed error message
-                MessageBox.Show("Error: " + ex.Message);
+                if (es == null)
+                {
+                    MessageBox.Show("Please select a record to update from the grid.");
+                    return;
+                }
+
+                // Update the selected staff record
+                int id = Convert.ToInt16(dataGridView1.Rows[es.RowIndex].Cells["Staff_Id"].Value);
+
+                cmd = new SqlCommand("UPDATE Staff SET Staff_Fname = @fname, Staff_Lname = @lname, Staff_Email = @Email, Staff_Mobile = @Mobile, Staff_Role = @role, Staff_Gender = @Gender, Staff_Address = @Address WHERE Staff_Id = @Staff_Id", con);
+                cmd.Parameters.AddWithValue("@fname", txtfname.Text);
+                cmd.Parameters.AddWithValue("@lname", txtlname.Text);
+                cmd.Parameters.AddWithValue("@Email", txtmail.Text);
+                cmd.Parameters.AddWithValue("@Mobile", txtmobile.Text);
+                cmd.Parameters.AddWithValue("@role", Comborole.Text);
+                cmd.Parameters.AddWithValue("@Gender", combogender.Text);
+                cmd.Parameters.AddWithValue("@Address", txtadd.Text);
+                cmd.Parameters.AddWithValue("@Staff_Id", id);
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Staff record updated successfully!");
+                fillgrid();
+            }
+        }
+
+        void fillgrid()
+        {
+            connection();
+            da = new SqlDataAdapter("SELECT Staff_Id, Staff_Fname, Staff_Lname, Staff_Email, Staff_Mobile, Staff_Role, Staff_Gender, Staff_Address FROM Staff", con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.DataSource = dt;
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return; // Ignore clicks on headers or invalid cells
             }
 
-            txtsid.Clear();
-            txtfname.Clear();
-            txtlname.Clear();
-            txtmail.Clear();
-            txtmobile.Clear();
-            Comborole.Text = string.Empty;
-            combogender.Text = string.Empty;
-            txtadd.Clear();
+            // Handle Update button click
+            if (dataGridView1.Columns[e.ColumnIndex].HeaderText == "Update")
+            {
+                es = e; // Store event for use in update
+
+                btnregister.Text = "Update";
+
+                connection();
+
+                int id = Convert.ToInt16(dataGridView1.Rows[e.RowIndex].Cells["Staff_Id"].Value);
+
+                txtfname.Text = dataGridView1.Rows[e.RowIndex].Cells["Staff_Fname"].Value?.ToString() ?? "";
+                txtlname.Text = dataGridView1.Rows[e.RowIndex].Cells["Staff_Lname"].Value?.ToString() ?? "";
+                txtmail.Text = dataGridView1.Rows[e.RowIndex].Cells["Staff_Email"].Value?.ToString() ?? "";
+                txtmobile.Text = dataGridView1.Rows[e.RowIndex].Cells["Staff_Mobile"].Value?.ToString() ?? "";
+                Comborole.Text = dataGridView1.Rows[e.RowIndex].Cells["Staff_Role"].Value?.ToString() ?? "";
+                combogender.Text = dataGridView1.Rows[e.RowIndex].Cells["Staff_Gender"].Value?.ToString() ?? "";
+                txtadd.Text = dataGridView1.Rows[e.RowIndex].Cells["Staff_Address"].Value?.ToString() ?? "";
+            }
+
+            // Handle Delete button click
+            else if (dataGridView1.Columns[e.ColumnIndex].HeaderText == "Delete")
+            {
+                connection();
+                int id = Convert.ToInt16(dataGridView1.Rows[e.RowIndex].Cells["Staff_Id"].Value);
+                cmd = new SqlCommand("DELETE FROM Staff WHERE Staff_Id = @Staff_Id", con);
+                cmd.Parameters.AddWithValue("@Staff_Id", id);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Staff record deleted successfully!");
+                fillgrid();
+            }
         }
     }
 }

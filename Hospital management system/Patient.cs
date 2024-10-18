@@ -2,6 +2,10 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using CrystalDecisions.CrystalReports.Engine;
+
+using CrystalDecisions.Shared;
+
 
 namespace Hospital_management_system
 {
@@ -14,6 +18,10 @@ namespace Hospital_management_system
         DataGridViewCellEventArgs es;
 
         String s = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Kaushik\source\repos\Hospital management system\Hospital management system\HMS_DB.mdf;Integrated Security=True";
+
+        private CrystalDecisions.CrystalReports.Engine.ReportDocument cr = new CrystalDecisions.CrystalReports.Engine.ReportDocument();
+
+        static string Crypath = "";
 
         public Patient()
         {
@@ -135,6 +143,33 @@ namespace Hospital_management_system
                 fillgrid();  // Refresh the grid after deleting
             }
         }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            da = new SqlDataAdapter("select * from Patient", con);
+            ds = new DataSet();
+            da.Fill(ds);
+            string xml = @" E:/Hospital management system/Hospital management system/data.xml";
+            ds.WriteXmlSchema(xml);
+
+            Crypath = @" E:/Hospital management system/Hospital management system/CrystalReport1.rpt";
+            cr.Load(Crypath);
+            cr.SetDataSource(ds);
+            cr.Database.Tables[0].SetDataSource(ds);
+            cr.Refresh();
+            crystalReportViewer1.ReportSource = cr;
+
+        }
+
+        private void pateint_repo1_InitReport(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void crystalReport11_InitReport(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
-`   
