@@ -35,7 +35,7 @@ namespace Hospital_management_system
         {
             connection();
 
-            if (btnregister.Text == "Add")
+            if (btnregister.Text == "Register")
             {
                 // Register a new staff member
                 cmd = new SqlCommand("INSERT INTO Staff (Staff_Fname, Staff_Lname, Staff_Email, Staff_Mobile, Staff_Role, Staff_Gender, Staff_Address) VALUES (@fname, @lname, @Email, @Mobile, @role, @Gender, @Address)", con);
@@ -51,6 +51,10 @@ namespace Hospital_management_system
 
                 MessageBox.Show("Staff record inserted successfully!");
                 fillgrid();
+
+                // Reset the form for new entry
+                btnregister.Text = "Add";
+                es = null;
             }
             else
             {
@@ -77,6 +81,10 @@ namespace Hospital_management_system
 
                 MessageBox.Show("Staff record updated successfully!");
                 fillgrid();
+
+                // Reset the form for new entry
+                btnregister.Text = "Add";
+                es = null;
             }
         }
 
@@ -129,6 +137,25 @@ namespace Hospital_management_system
                 MessageBox.Show("Staff record deleted successfully!");
                 fillgrid();
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            //da = new SqlDataAdapter("select * from Staff", con);
+            //ds = new DataSet();
+            //da.Fill(ds);
+            //string xml = @" E:/Hospital management system/Hospital management system/Staffdata.xml";
+            //ds.WriteXmlSchema(xml);
+
+            string RptType = "Staff";
+
+            frmReport frm = new frmReport(RptType);
+            frm.Show();
         }
     }
 }

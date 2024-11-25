@@ -40,7 +40,7 @@ namespace Hospital_management_system
             this.txtage = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtmail = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtfname = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.rptButotn = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -48,8 +48,6 @@ namespace Hospital_management_system
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.pateint_repo1 = new Hospital_management_system.Pateint_repo();
             this.pateint_repo2 = new Hospital_management_system.Pateint_repo();
-            this.crystalReport11 = new Hospital_management_system.CrystalReport1();
-            this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.pPanel1.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -68,10 +66,10 @@ namespace Hospital_management_system
             this.pPanel1.Controls.Add(this.txtage);
             this.pPanel1.Controls.Add(this.txtmail);
             this.pPanel1.Controls.Add(this.txtfname);
-            this.pPanel1.Controls.Add(this.guna2Button1);
+            this.pPanel1.Controls.Add(this.rptButotn);
             this.pPanel1.Location = new System.Drawing.Point(96, 97);
             this.pPanel1.Name = "pPanel1";
-            this.pPanel1.Size = new System.Drawing.Size(1200, 563);
+            this.pPanel1.Size = new System.Drawing.Size(1231, 563);
             this.pPanel1.TabIndex = 7;
             // 
             // label5
@@ -277,24 +275,24 @@ namespace Hospital_management_system
             this.txtfname.Size = new System.Drawing.Size(502, 48);
             this.txtfname.TabIndex = 3;
             // 
-            // guna2Button1
+            // rptButotn
             // 
-            this.guna2Button1.AutoRoundedCorners = true;
-            this.guna2Button1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2Button1.BorderRadius = 21;
-            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(190)))), ((int)(((byte)(0)))));
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(28, 36);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(180, 45);
-            this.guna2Button1.TabIndex = 0;
-            this.guna2Button1.Text = "Generate Report";
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.rptButotn.AutoRoundedCorners = true;
+            this.rptButotn.BackColor = System.Drawing.Color.Transparent;
+            this.rptButotn.BorderRadius = 21;
+            this.rptButotn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.rptButotn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.rptButotn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.rptButotn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.rptButotn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(190)))), ((int)(((byte)(0)))));
+            this.rptButotn.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.rptButotn.ForeColor = System.Drawing.Color.White;
+            this.rptButotn.Location = new System.Drawing.Point(28, 36);
+            this.rptButotn.Name = "rptButotn";
+            this.rptButotn.Size = new System.Drawing.Size(189, 45);
+            this.rptButotn.TabIndex = 0;
+            this.rptButotn.Text = "Generate Report";
+            this.rptButotn.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // guna2Panel1
             // 
@@ -302,7 +300,7 @@ namespace Hospital_management_system
             this.guna2Panel1.Controls.Add(this.label1);
             this.guna2Panel1.Location = new System.Drawing.Point(96, 59);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(1200, 41);
+            this.guna2Panel1.Size = new System.Drawing.Size(1231, 41);
             this.guna2Panel1.TabIndex = 8;
             // 
             // label1
@@ -352,26 +350,11 @@ namespace Hospital_management_system
             // 
             this.pateint_repo1.InitReport += new System.EventHandler(this.pateint_repo1_InitReport);
             // 
-            // crystalReport11
-            // 
-            this.crystalReport11.InitReport += new System.EventHandler(this.crystalReport11_InitReport);
-            // 
-            // crystalReportViewer1
-            // 
-            this.crystalReportViewer1.ActiveViewIndex = -1;
-            this.crystalReportViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.crystalReportViewer1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.crystalReportViewer1.Location = new System.Drawing.Point(1302, 63);
-            this.crystalReportViewer1.Name = "crystalReportViewer1";
-            this.crystalReportViewer1.Size = new System.Drawing.Size(644, 633);
-            this.crystalReportViewer1.TabIndex = 10;
-            // 
             // Patient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1942, 1038);
-            this.Controls.Add(this.crystalReportViewer1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.guna2Panel1);
             this.Controls.Add(this.pPanel1);
@@ -402,7 +385,7 @@ namespace Hospital_management_system
         private Guna.UI2.WinForms.Guna2TextBox txtage;
         private Guna.UI2.WinForms.Guna2TextBox txtmail;
         private Guna.UI2.WinForms.Guna2TextBox txtfname;
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2Button rptButotn;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
@@ -410,7 +393,5 @@ namespace Hospital_management_system
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
         private Pateint_repo pateint_repo1;
         private Pateint_repo pateint_repo2;
-        private CrystalReport1 crystalReport11;
-        private CrystalDecisions.Windows.Forms.CrystalReportViewer crystalReportViewer1;
     }
 }

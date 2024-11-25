@@ -300,6 +300,7 @@ namespace Hospital_management_system
             this.guna2Button1.Size = new System.Drawing.Size(180, 45);
             this.guna2Button1.TabIndex = 0;
             this.guna2Button1.Text = "Generate Report";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // dataGridView1
             // 
@@ -314,6 +315,7 @@ namespace Hospital_management_system
             this.dataGridView1.Size = new System.Drawing.Size(1284, 364);
             this.dataGridView1.TabIndex = 11;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Update
             // 

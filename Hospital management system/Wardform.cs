@@ -29,6 +29,7 @@ namespace Hospital_management_system
         private void Wardform_Load(object sender, EventArgs e)
         {
             fillgrid();
+            clearFields();
         }
 
         private void guna2Button4_Click(object sender, EventArgs e)
@@ -37,9 +38,9 @@ namespace Hospital_management_system
 
             if (btnregister.Text == "Add")
             {
-                // Insert a new ward record
-                cmd = new SqlCommand("INSERT INTO Ward ( Ward_Name, Ward_Doc, Ward_Nurs, Ward_Patient, Ward_Charge) VALUES ( @wname, @nodoc, @nonurs, @nopat, @charge)", con);
-                
+                // Insert a new ward record without specifying Ward_Id
+                cmd = new SqlCommand("INSERT INTO Ward (Ward_Name, Ward_Doc, Ward_Nurs, Ward_Patient, Ward_Charge) VALUES (@wname, @nodoc, @nonurs, @nopat, @charge)", con);
+
                 cmd.Parameters.AddWithValue("@wname", txtwname.Text);
                 cmd.Parameters.AddWithValue("@nodoc", txtnumdoc.Text);
                 cmd.Parameters.AddWithValue("@nonurs", txtnumnurs.Text);
@@ -75,6 +76,7 @@ namespace Hospital_management_system
 
             clearFields();
         }
+
 
         void fillgrid()
         {
@@ -134,6 +136,20 @@ namespace Hospital_management_system
             txtcharge.Clear();
             btnregister.Text = "Add";
             es = null;
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            //da = new SqlDataAdapter("select * from Ward", con);
+            //ds = new DataSet();
+            //da.Fill(ds);
+            //string xml = @" E:/Hospital management system/Hospital management system/Warddata.xml";
+            //ds.WriteXmlSchema(xml);
+
+            string RptType = "Ward";
+
+            frmReport frm = new frmReport(RptType);
+            frm.Show();
         }
     }
 }

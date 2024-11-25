@@ -45,7 +45,7 @@ namespace Hospital_management_system
         {
             connection();
 
-            if (btnregister.Text == "Add")
+            if (btnregister.Text == "Register")
             {
                 // Add new patient record
                 cmd = new SqlCommand("INSERT INTO Patient (Patient_Fname, Patient_Lname, Patient_Email, Patient_Mobile, Patient_Age, Patient_DOB, Patient_Gender, Patient_Address) VALUES (@Patient_Fname, @Patient_Lname, @Patient_Email, @Patient_Mobile, @Patient_Age, @Patient_DOB, @Patient_Gender, @Patient_Address)", con);
@@ -144,20 +144,20 @@ namespace Hospital_management_system
             }
         }
 
+
+        //Butt for generating crystal report
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            da = new SqlDataAdapter("select * from Patient", con);
-            ds = new DataSet();
-            da.Fill(ds);
-            string xml = @" E:/Hospital management system/Hospital management system/data.xml";
-            ds.WriteXmlSchema(xml);
+            //da = new SqlDataAdapter("select * from Patient", con);
+            //ds = new DataSet();
+            //da.Fill(ds);
+            //string xml = @" E:/Hospital management system/Hospital management system/data.xml";
+            //ds.WriteXmlSchema(xml);
 
-            Crypath = @" E:/Hospital management system/Hospital management system/CrystalReport1.rpt";
-            cr.Load(Crypath);
-            cr.SetDataSource(ds);
-            cr.Database.Tables[0].SetDataSource(ds);
-            cr.Refresh();
-            crystalReportViewer1.ReportSource = cr;
+            string RptType = "Paient";
+
+            frmReport frm = new frmReport(RptType);
+            frm.Show();
 
         }
 
